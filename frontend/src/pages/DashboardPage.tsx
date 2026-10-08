@@ -16,6 +16,7 @@ import {
 import { useWallet } from "../hooks/useWallet";
 import { useContract, INSTITUTION_ROLE } from "../hooks/useContract";
 import { truncateAddress, formatDate } from "../lib/crypto";
+import { getApiUrl } from "../lib/api";
 
 interface IssuedCertItem {
   id: string;
@@ -145,7 +146,7 @@ export const DashboardPage: React.FC = () => {
       const formData = new FormData();
       formData.append("certificate", pdfFile);
 
-      const uploadRes = await fetch("/api/upload", {
+      const uploadRes = await fetch(getApiUrl("/api/upload"), {
         method: "POST",
         body: formData,
       });
@@ -159,7 +160,7 @@ export const DashboardPage: React.FC = () => {
 
       // Step 2: Pin Metadata to IPFS
       setIssueStep(2);
-      const metaRes = await fetch("/api/metadata", {
+      const metaRes = await fetch(getApiUrl("/api/metadata"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

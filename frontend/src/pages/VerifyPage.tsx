@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useContract } from "../hooks/useContract";
 import { computeSha256, truncateAddress, formatDate } from "../lib/crypto";
+import { getApiUrl } from "../lib/api";
 
 interface VerificationResult {
   cert: {
@@ -70,7 +71,7 @@ export const VerifyPage: React.FC = () => {
       const sample = sampleCertificates.find((s: any) => s.cid === cid);
       if (sample && sample.metadata) return sample.metadata;
 
-      const res = await fetch(`/api/ipfs/${cid}`);
+      const res = await fetch(getApiUrl(`/api/ipfs/${cid}`));
       if (res.ok) {
         const json = await res.json();
         return json;
@@ -607,7 +608,7 @@ export const VerifyPage: React.FC = () => {
                       IPFS Content Identifier (CID)
                     </span>
                     <a
-                      href={`/api/ipfs/${verificationResult.cert.ipfsCid}`}
+                      href={getApiUrl(`/api/ipfs/${verificationResult.cert.ipfsCid}`)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-blue-500 hover:text-blue-600 flex items-center gap-1 font-semibold"
